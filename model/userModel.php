@@ -16,7 +16,7 @@ class UserModel{
         if($cantMail==0){
            // $date = date("Y-m-d");
             $status = "1";
-            $query = "INSERT INTO users(use_id, use_name, use_email, use_password, use_phone, use_address, use_datecreate, use_identifier, use_key, use_status)VALUES (NULL, :use_name, :use_email, :use_password, :use_phone, :use_address, :use_datecreate, :use_identifier, :use_key, :use_status);";
+             $query = "INSERT INTO users(use_id, use_name, use_email, use_password, use_phone, use_address, use_datecreate, use_identifier, use_key, use_status)VALUES (NULL, :use_name, :use_email, :use_password, :use_phone, :use_address, :use_datecreate, :use_identifier, :use_key, :use_status);";
             $statement = Connection::connection()->prepare($query);
             $statement-> bindParam(":use_name", $data["use_name"],PDO::PARAM_STR);
             $statement-> bindParam(":use_email",  $data["use_email"],PDO::PARAM_STR);
