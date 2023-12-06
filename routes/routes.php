@@ -15,17 +15,16 @@ if(count(array_filter($rutasArray))<2){
 }else{
     /**
      * EndPoint Correctos
-     *
      */
     $endPoint = (array_filter($rutasArray)[2]);
     $complement= (array_key_exists(3,$rutasArray))? ($rutasArray)[3]:0;
     $add = (array_key_exists(4,$rutasArray))? ($rutasArray)[4]:"";
     if($add !="") $complement .= "/".$add;
     $method = $_SERVER['REQUEST_METHOD'];
-    print_r($endPoint);
+    //print_r($endPoint);
     switch ($endPoint){
         case 'users':
-            if (isset($_POST) && $method == 'POST'){
+            if (isset($_POST)){
                 $user = new UserController($method, $complement, $_POST);
             }elseif ($method == 'PUT') {
                 $user = new UserController($method, $complement, $_POST);

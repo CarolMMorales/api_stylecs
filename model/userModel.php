@@ -16,13 +16,24 @@ class UserModel{
         if($cantMail==0){
             $date = date("Y-m-d");
             $status = "1";
-            $query = "INSERT INTO `users`(`use_name`, `use_email`, `use_password`, `use_datecreate`, `use_key`, `use_identifier`, `use_status`, `use_celular`, `use_direccion`) VALUES ('".$data['use_name']."','".$data['use_email']."','".$data['use_password']."','".$date."','".$data['use_key']."', '".$data['use_identifier']."','".$status."', '".$data['use_celular']."','".$data['use_direccion']."')";
+            $query = "INSERT INTO users(use_id, use_name, use_email, use_password, use_phone, use_address, use_datecreate, use_identifier, use_key, use_status);";
             $statement = Connection::connection()->prepare($query);
-            $message = $statement-> execute() ? array("ok") : Connection::connection()->errorInfo();
+            $statement-> bindParam(":use_name", ($data["use_name"]),PDO::PARAM_STR);
+                $statement-> bindParam(":use_email",  ($data["use_email"]),PDO::PARAM_STR);
+                $statement-> bindParam(":use_password", $data["use_password"],PDO::PARAM_STR);
+                $statement-> bindParam(":use_phone", $data["use_phone"],PDO::PARAM_STR);
+                $statement-> bindParam(":use_address", $data["use_address"],PDO::PARAM_STR);
+                $statement-> 
+bindParam(":use_datecreate", $data["use_datecreate"],PDO::PARAM_STR);
+                $statement-> bindParam(":use_identifier", $data["use_identifier"],PDO::PARAM_STR);
+                $statement-> bindParam(":use_key", $data["use_key"],PDO::PARAM_STR);       
+                $statement-> bindParam(":use_status",$status,PDO::PARAM_STR); 
+            $message = $statement-> execute() ? "ok" : Connection::connection()->errorInfo();
             $statement->closeCursor();
             $statement = null;
             $query="";
-        }else{$message = array("el usuario ya existe");}
+        }else{$message = ("el usuario ya existe");
+        }
         return $message;
     }
 
@@ -52,7 +63,7 @@ class UserModel{
         $pass = md5($data['use_password']);
 
         if (!empty($user) && !empty($pass)){
-            $query="SELECT  use_id, use_key, use_identifier FROM users WHERE use_email = '$user' and use_password='$pass' and use_status='1'";
+            $query="SELECT  use_id, use_identifier, use_key FROM users WHERE use_email = '$user' and use_password='$pass' and use_status='1'";
             $statement = Connection::connection()->prepare($query);
             $statement-> execute();
             $result = $statement->fetchAll(PDO::FETCH_ASSOC);
