@@ -33,9 +33,7 @@ class UserController{
                 }
             case "POST":
                 $createUser = UserModel::createUser($this->generateSalting());
-                $json = array(
-                    "response: "=>$createUser
-                );
+                $json = $createUser;
                 echo json_encode($json,true);
                 return;
             case "PUT":
